@@ -39,31 +39,31 @@
 //For more information, please refer to <http://unlicense.org/>
 //==============================================================================
 // LCD & USD control lines
-//   ARD      | Port  |            |  Function - 8080 Parallel   |  Function - SPI							  |		Function - I2C                  
+//   ARD      | Port  |Display tail|  Function - 8080 Parallel   |  Function - SPI                            |	Function - I2C                  
 //------------+-------+------------+-----------------------------+--------------------------------------------+
-//  N/A	      |       | 23         |  POWER 12.5V                |  POWER 12V                                 |		POWER 12V  
-//  3.3V      |       | 5          |  POWER 3.3V                 |  POWER 3.3V                                |		POWER 3.3V 
-//  GND	      |       | 1-3, 24    |  GROUND                     |  GROUND                                    |		GROUND                
+//  N/A	      |       | 23         |  POWER 12.5V                |  POWER 12V                                 |	POWER 12V  
+//  3.3V      |       | 5          |  POWER 3.3V                 |  POWER 3.3V                                |	POWER 3.3V 
+//  GND	      |       | 1-3, 24    |  GROUND                     |  GROUND                                    |	GROUND                
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
-//  N/A       | N/A   | 6          |  BS1 - 3.3V                 |  BS1 - GND								  |		BS1 - 3.3V
-//  N/A       | N/A   | 7          |  BS2 - 3.3V                 |  BS2 - GND								  |		BS2 - GND
+//  N/A       | N/A   | 6          |  BS1 - 3.3V                 |  BS1 - GND                                 |	BS1 - 3.3V
+//  N/A       | N/A   | 7          |  BS2 - 3.3V                 |  BS2 - GND                                 |	BS2 - GND
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
-//  A0        | PORTC | 10         |  Data/Command        (DC)   |  Data/Command (pull high for 3-wire) (DC)  |		SA0
-//  A1        | PORTC | 11         |  Write               (WR)   |  N/A pull high                             |		N/A pull high    
-//  A2        | PORTC | 12         |  Read                (RD)   |  N/A pull high                             |		N/A pull high     
-//  D8        | PORTB | 8          |  Chip Enable Signal  (CS)   |  Chip Enable Signal                  (CS)  |		Chip Enable Signal (CS)
-//  D9        | PORTB | 9          |  Reset            (RESET)   |  Reset                            (RESET)  |		Reset         (RESET)
+//  A0        | PORTC | 10         |  Data/Command        (DC)   |  Data/Command (pull high for 3-wire) (DC)  |	SA0
+//  A1        | PORTC | 11         |  Write               (WR)   |  N/A pull high                             |	N/A pull high    
+//  A2        | PORTC | 12         |  Read                (RD)   |  N/A pull high                             |	N/A pull high     
+//  D8        | PORTB | 8          |  Chip Enable Signal  (CS)   |  Chip Enable Signal                  (CS)  |	Chip Enable Signal (CS)
+//  D9        | PORTB | 9          |  Reset            (RESET)   |  Reset                            (RESET)  |	Reset         (RESET)
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
 // PARALLEL ONLY
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
-//  D0        | PORTD | 13         |  LCD_D10 (DB0)              |  
-//  D1        | PORTD | 14         |  LCD_D11 (DB1)              |  
-//  D2        | PORTD | 15         |  LCD_D12 (DB2)              |  
-//  D3        | PORTD | 16         |  LCD_D13 (DB3)              |  
-//  D4        | PORTD | 17         |  LCD_D14 (DB4)              |  
-//  D5        | PORTD | 18         |  LCD_D15 (DB5)              |  
-//  D6        | PORTD | 19         |  LCD_D16 (DB6)              |  
-//  D7        | PORTD | 20         |  LCD_D17 (DB7)              |  
+//  D0        | PORTD | 13         |  LCD_D10 (DB0)              |                                            |
+//  D1        | PORTD | 14         |  LCD_D11 (DB1)              |                                            |
+//  D2        | PORTD | 15         |  LCD_D12 (DB2)              |                                            |
+//  D3        | PORTD | 16         |  LCD_D13 (DB3)              |                                            |
+//  D4        | PORTD | 17         |  LCD_D14 (DB4)              |                                            |
+//  D5        | PORTD | 18         |  LCD_D15 (DB5)              |                                            |
+//  D6        | PORTD | 19         |  LCD_D16 (DB6)              |                                            |
+//  D7        | PORTD | 20         |  LCD_D17 (DB7)              |                                            |
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
 // SPI ONLY
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
@@ -78,9 +78,9 @@
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
 // I2C ONLY
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
-//  A5        | PORTC | 13         |                             |										      |    SCL                                      
-//  A4        | PORTC | 14         |                             |											  |    SDIN/SDOUT                                          
-//  A4        | PORTC | 15         |                             |											  |    SDIN/SDOUT                             
+//  A5        | PORTC | 13         |                             |                                            |  SCL                                      
+//  A4        | PORTC | 14         |                             |                                            |  SDA                                          
+//  A4        | PORTC | 15         |                             |                                            |  SDA                             
 // -----------+-------+------------+-----------------------------+--------------------------------------------+
 // Consult the datasheet for more interface options
 //==============================================================================
@@ -102,7 +102,9 @@
 //    8-bit 6800 Parallel |  0  |  1  
 //    8-bit 8080 Parallel |  1  |  1  
 //
-//  This code is demonstrated using 8080 Parallel or 4-wire SPI
+//  This code is demonstrated using 8080 Parallel, I2C, or 4-wire SPI
+//  The CFA10105 breakout board is default SPI. To load code for the breakout
+//  uncomment the define for SPI below and comment out the define for I2C.
 //==============================================================================
 //  Select the interface
 //#define SPI_4_WIRE
