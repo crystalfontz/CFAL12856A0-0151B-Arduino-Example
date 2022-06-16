@@ -107,9 +107,9 @@
 //  uncomment the define for SPI below and comment out the define for I2C.
 //==============================================================================
 //  Select the interface
-//#define SPI_4_WIRE
+#define SPI_4_WIRE
 //#define PAR_8080	  
-#define I2C
+//#define I2C
 //------------------------------------------------------------------------------
 //Allow the serial debugging monitor, but only if SPI (pin conflict with parallel)
 #define SER_DEBUG
